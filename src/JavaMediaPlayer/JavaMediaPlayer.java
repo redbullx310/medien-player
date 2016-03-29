@@ -10,6 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 
 /**
  * JavaMediaPlayer takes advantage of the JavaFX Media library to efficiently 
@@ -93,7 +95,19 @@ public class JavaMediaPlayer extends Application {
         try {
             media = new Media(source);
         } catch (MediaException e) {
-            // Plan on throwing a popup screen in the users face here explaining the error
+            Pane errorPane = new Pane();
+
+            Label errorLbl = new Label("Media file type unsupported\n\n"
+                    + "Valid types are\n"
+                    + "\tVideo: mp4 and flv\n"
+                    + "\tAudo: ???");
+            errorLbl.setPadding(new Insets(20, 20, 20, 20));
+            errorPane.getChildren().add(errorLbl);
+            
+            Stage errorPrompt = new Stage();
+            errorPrompt.setTitle("Invalid file type");
+            errorPrompt.setScene(new Scene(errorPane, 250, 150));
+            errorPrompt.show();
             System.out.println("Invalid file or file type not supported");
         }
         
