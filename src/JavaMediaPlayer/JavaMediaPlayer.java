@@ -1,7 +1,6 @@
 
 package JavaMediaPlayer;
 
-import java.io.File;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -12,6 +11,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * JavaMediaPlayer takes advantage of the JavaFX Media library to efficiently 
@@ -26,7 +27,8 @@ import javafx.scene.control.Label;
 
 public class JavaMediaPlayer extends Application {
     
-    private File mediaFile = new File("mediaFiles/familyguy.mp4"); // replace famguy.mp4 with your video file name
+    private Image initImage = new Image("file:images/medienEmblem.png", 700, 750, true, true);
+    private ImageView imgView = new ImageView(initImage);
     private static Media media;
     private static MediaPlayer player;
     private static MediaView view;
@@ -41,22 +43,8 @@ public class JavaMediaPlayer extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        try {
-            media = new Media(mediaFile.toURI().toString()); // Media object holds the video file
-            player = new MediaPlayer(media); // player object allows video manipulation and holds data about the video
-            view = new MediaView(player); // MediaView object allows a player object to be presented on the screen
-            bindScreen();
-            ctrlPanel = new ControlPanel(player);
-        } catch (Exception e) {
-            //e.toString();
-            System.out.println("Unsupported file type or something weird happened. Check mediaFile path");
-        }
-        
-        viewPane.getChildren().add(view); // add the view MediaView object into the viewPane
-        
         pane.setTop(drops.menuBar); 
-        pane.setCenter(viewPane); 
-        pane.setBottom(ctrlPanel.ctrlPane); 
+        pane.setCenter(imgView); 
                 
         Scene scene = new Scene(pane, 750, 700);
         scene.getStylesheets().add("file:MediaPlayerStyle.css");
@@ -72,10 +60,9 @@ public class JavaMediaPlayer extends Application {
     }
     
     /*
-      Makes the screen bigger. Huge pain in the butt and I plan to try to fix
-      it somehow. But it works for now.
+      Makes the screen bigger.
     */
-    private void bindScreen() {
+    public static void bindScreen() {
         width = view.fitWidthProperty();
         height = view.fitHeightProperty(); 
         width.bind(Bindings.selectDouble(view.sceneProperty(), "width"));
@@ -84,7 +71,7 @@ public class JavaMediaPlayer extends Application {
     
     /**
      * Change the media. New Media, MediaPlayer, ControlPanel objects are
-     * created each time the media is played. The reason, each of these objects
+     * created each time the media is played. Each of these objects
      * are essentially bound to one media source and cannot be changed, so new
      * objects are created for a new media source. Due to Java garbage collection, 
      * this should not decrease efficiency. Hopefully.
@@ -92,15 +79,22 @@ public class JavaMediaPlayer extends Application {
      * @param source Source of the new media file
      */
     public static void changeMedia(String source) {
+        boolean initialized = false;
+
+        if(!initialized) {
+            view = new MediaView();
+            initialized = true;
+        }
+        
         try {
             media = new Media(source);
-        } catch (MediaException e) {
+        } catch (Exception e) {
             Pane errorPane = new Pane();
 
             Label errorLbl = new Label("Media file type unsupported\n\n"
                     + "Valid types are\n"
-                    + "\tVideo: mp4 and flv\n"
-                    + "\tAudo: ???");
+                    + "\tVideo: MP4 and FLV\n"
+                    + "\tAudo: MP3, AIFF, WAV, M4A");
             errorLbl.setPadding(new Insets(20, 20, 20, 20));
             errorPane.getChildren().add(errorLbl);
             
@@ -108,13 +102,15 @@ public class JavaMediaPlayer extends Application {
             errorPrompt.setTitle("Invalid file type");
             errorPrompt.setScene(new Scene(errorPane, 250, 150));
             errorPrompt.show();
+            errorPrompt.setResizable(false);
             System.out.println("Invalid file or file type not supported");
+            return;
         }
         
         player = new MediaPlayer(media);
         view.setMediaPlayer(player);
-        
         ctrlPanel = new ControlPanel(player);
+        pane.setCenter(view);
         pane.setBottom(ctrlPanel.ctrlPane);
     }
     

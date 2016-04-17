@@ -4,7 +4,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import java.io.File;
@@ -14,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+
 /**
  * Dropdowns class adds drop down menus to the top of the player screen.
  *
@@ -21,10 +21,12 @@ import javafx.stage.Stage;
  */
 public class DropDowns {
 
-    private Menu menu1 = new Menu("File");
-    private Menu menu2 = new Menu("About");
+    private Menu fileMenu = new Menu("File");
+    private Menu viewMenu = new Menu("View");
+    private Menu aboutMenu = new Menu("About");
     private MenuItem urlItem = new MenuItem("Open URL"); // not currently implemented
     private MenuItem fileItem = new MenuItem("Open File");
+    private MenuItem enlargeScreen = new MenuItem("Enlarge Screen");
     private FileChooser fileChooser = new FileChooser();
     public MenuBar menuBar = new MenuBar();
     public HBox dropDowns = new HBox();
@@ -32,9 +34,11 @@ public class DropDowns {
     public DropDowns() {
         urlItem.setStyle("-fx-text-fill: #000000");
         fileItem.setStyle("-fx-text-fill: #000000");
+        enlargeScreen.setStyle("-fx-text-fill: #000000");
 
-        menu1.getItems().addAll(urlItem, fileItem);
-        menuBar.getMenus().addAll(menu1, menu2);
+        fileMenu.getItems().addAll(urlItem, fileItem);
+        viewMenu.getItems().addAll(enlargeScreen);
+        menuBar.getMenus().addAll(fileMenu, viewMenu, aboutMenu);
         menuBar.setStyle("-fx-background-color: #383838");
 
         fileItem.setOnAction(e -> {
@@ -45,13 +49,17 @@ public class DropDowns {
         urlItem.setOnAction(e -> {
             URLAction();
         });
+        
+        enlargeScreen.setOnAction(e -> {
+            JavaMediaPlayer.bindScreen();
+        });
     }
 
     private void URLAction() {
         VBox pane = new VBox();
         pane.setPadding(new Insets(20, 20, 20, 20));
         pane.setSpacing(10);
-        
+
         Button okBt = new Button("OK");
 
         TextField text = new TextField();
@@ -62,10 +70,12 @@ public class DropDowns {
         stage.setScene(new Scene(pane, 300, 100));
         stage.setResizable(false);
         stage.show();
-        
+
         okBt.setOnAction(e -> {
-           JavaMediaPlayer.changeMedia(text.getText());
-           stage.close();
+            JavaMediaPlayer.changeMedia(text.getText());
+            stage.close();
         });
     }
+    
+    
 }

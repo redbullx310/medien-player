@@ -5,7 +5,7 @@
 */
 
 .root {
-    -fx-background-color: #383838;
+    -fx-background-color: #181818;
 }
 
 .label {
@@ -15,5 +15,5 @@
 
 .button {
     -fx-background-color: #b8b8b8;
-    -fx-background-radius: 10;
+    -fx-background-radius: 15;
 }
