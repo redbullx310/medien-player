@@ -61,6 +61,7 @@ public class DropDowns {
         });
         
         aboutItem.setOnAction(e -> {
+<<<<<<< HEAD
             Pane aboutPane = new Pane();
             //ArrayList<Label> text = new ArrayList<>();
             Label aboutTitleLabel = new Label("Medien Player\n");
@@ -78,6 +79,12 @@ public class DropDowns {
             aboutPrompt.setScene(new Scene(aboutPane, 250, 150));
             aboutPrompt.show();
             aboutPrompt.setResizable(false);
+=======
+            // put 'about' code here.
+            // You can either make a separate method and 
+            // call it here (perhaps for neatness)
+            // or just jam all the code in here. Doesnt matter
+>>>>>>> 90482dbce5ea6dd87554239c20b97d53f4941b31
         });
     }
 
