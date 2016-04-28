@@ -20,7 +20,7 @@ import javafx.scene.image.ImageView;
  * via HTTP streaming. Supported video file types are .mp4 and .flv file types. 
  * Certain audio files can also be played. CSS is used to add some styling to the
  * player 
- * 
+ * @author shane
  * @version 1.0
  */
 
@@ -35,6 +35,7 @@ public class JavaMediaPlayer extends Application {
     private static ControlPanel ctrlPanel;
     private Pane viewPane = new Pane();
     private DropDowns drops = new DropDowns();
+    private static boolean initialized = false;
     
     private static DoubleProperty width;
     private static DoubleProperty height;
@@ -60,14 +61,44 @@ public class JavaMediaPlayer extends Application {
     }
     
     /*
-      Makes the screen bigger.
+      Makes the screen bigger. Contains a small algorithm to check the file type extensions
+      for any audio files (trying to bind audio files causes problems; they don't contain any display). 
+    
+    NOTE:  Enlarge screen option is causing more complications than its worth at the moment. 
+        Leaving it out for the time being.
+        Major problem with enlarging a video screen then switching to an audio file. The controls
+        are being sent off of the screen into oblivion somewhere.
     */
+    
+    /*
     public static void bindScreen() {
+        String source = media.getSource();
+        String type = "";
+        
+        for(int i = source.length()-3; i < source.length(); i++) {
+            type += source.charAt(i);
+        }
+        
+        switch(type) {
+            case "m4a":
+                
+            case "iff": // this is for aiff type; had to use iff since 'type' contains only three chars
+                
+            case "wav":
+                
+            case "mp3":
+                return;
+        }
+                
+        
         width = view.fitWidthProperty();
         height = view.fitHeightProperty(); 
         width.bind(Bindings.selectDouble(view.sceneProperty(), "width"));
         height.bind(Bindings.selectDouble(view.sceneProperty(), "height"));
     }
+    */
+    
+    
     
     /**
      * Change the media. New Media, MediaPlayer, ControlPanel objects are
@@ -79,13 +110,7 @@ public class JavaMediaPlayer extends Application {
      * @param source Source of the new media file
      */
     public static void changeMedia(String source) {
-        boolean initialized = false;
 
-        if(!initialized) {
-            view = new MediaView();
-            initialized = true;
-        }
-        
         try {
             media = new Media(source);
         } catch (Exception e) {
@@ -103,11 +128,20 @@ public class JavaMediaPlayer extends Application {
             errorPrompt.setScene(new Scene(errorPane, 250, 150));
             errorPrompt.show();
             errorPrompt.setResizable(false);
-            System.out.println("Invalid file or file type not supported");
+            //System.out.println("Invalid file or file type not supported");
             return;
         }
         
-        player = new MediaPlayer(media);
+        // if the application has just been started...
+        if(!initialized) {
+            view = new MediaView();
+            player = new MediaPlayer(media);
+            initialized = true; // user selected a valid media file; application has properly started
+        } else {
+            player.dispose(); // dispose the old player and make a new one; having multiple players causes problems
+            player = new MediaPlayer(media);
+        }
+
         view.setMediaPlayer(player);
         ctrlPanel = new ControlPanel(player);
         pane.setCenter(view);

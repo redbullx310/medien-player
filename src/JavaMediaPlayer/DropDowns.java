@@ -7,10 +7,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import java.io.File;
-import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -20,7 +21,7 @@ import javafx.stage.Stage;
 /**
  * Dropdowns class adds drop down menus to the top of the player screen.
  *
- * 
+ * @author shane
  */
 public class DropDowns {
 
@@ -57,25 +58,28 @@ public class DropDowns {
         });
         
         enlargeScreen.setOnAction(e -> {
-            JavaMediaPlayer.bindScreen();
+            //JavaMediaPlayer.bindScreen();
         });
         
         aboutItem.setOnAction(e -> {
             Pane aboutPane = new Pane();
-            ArrayList<Label> text = new ArrayList<>();
-            Label aboutTitleLabel = new Label("Medien Player\n");
-            Label aboutLabel = new Label("\n\nVersion 1.0 All rights reserved\n");
-            aboutTitleLabel.setStyle("-fx-font-weight: bold");
+            HBox hbox = new HBox();
+            Image emblem = new Image("file:images/medienEmblem.png", 200, 200, true, true);
+            ImageView imgView = new ImageView(emblem);
+            Label aboutTitleLabel = new Label("Medien Player");
+            Label aboutLabel = new Label("\n\n\nVersion 1.0 All rights reserved\n"
+                    + "-Shane Abe\n" +
+                        "-Valerie Ehimhen");
+            aboutTitleLabel.setStyle("-fx-font-size: 25; -fx-font-weight: bold");
             aboutTitleLabel.setPadding(new Insets(20,20,20,20));
             aboutLabel.setPadding(new Insets(20, 20, 20, 20));
-            text.add(aboutTitleLabel);
-            text.add(aboutLabel);
             
-            aboutPane.getChildren().addAll(text);
+            aboutPane.getChildren().addAll(aboutTitleLabel, aboutLabel);
+            hbox.getChildren().addAll(imgView, aboutPane);
 
             Stage aboutPrompt = new Stage();
             aboutPrompt.setTitle("About");
-            aboutPrompt.setScene(new Scene(aboutPane, 250, 150));
+            aboutPrompt.setScene(new Scene(hbox, 450, 160));
             aboutPrompt.show();
             aboutPrompt.setResizable(false);
         });
