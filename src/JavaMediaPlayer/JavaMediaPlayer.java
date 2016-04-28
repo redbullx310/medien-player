@@ -20,7 +20,7 @@ import javafx.scene.image.ImageView;
  * via HTTP streaming. Supported video file types are .mp4 and .flv file types. 
  * Certain audio files can also be played. CSS is used to add some styling to the
  * player 
- * @author shane
+ * 
  * @version 1.0
  */
 

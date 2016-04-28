@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
  * of the player (Play/Pause button, volume, mute, etc.)
  * Only a constructor is needed to create and initialize all the pieces which are
  * used by the JavaMediaPlayer class
- * @author shane
+ * 
  */
 public class ControlPanel {
 

@@ -11,7 +11,7 @@ import javafx.util.Duration;
 /**
  * Since the seek bar is a beast of its own, it gets a class of its own. 
  * It is used by the ControlPanel class.
- * @author shane
+ * 
  */
 public class SeekBar {
     public Slider videoTime;
