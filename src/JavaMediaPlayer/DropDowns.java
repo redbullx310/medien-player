@@ -61,30 +61,23 @@ public class DropDowns {
         });
         
         aboutItem.setOnAction(e -> {
-<<<<<<< HEAD
             Pane aboutPane = new Pane();
-            //ArrayList<Label> text = new ArrayList<>();
+            ArrayList<Label> text = new ArrayList<>();
             Label aboutTitleLabel = new Label("Medien Player\n");
             Label aboutLabel = new Label("\n\nVersion 1.0 All rights reserved\n");
             aboutTitleLabel.setStyle("-fx-font-weight: bold");
             aboutTitleLabel.setPadding(new Insets(20,20,20,20));
             aboutLabel.setPadding(new Insets(20, 20, 20, 20));
-            //text.add(aboutTitleLabel);
-            //text.add(aboutLabel);
+            text.add(aboutTitleLabel);
+            text.add(aboutLabel);
             
-            aboutPane.getChildren().addAll(aboutTitleLabel, aboutLabel);
+            aboutPane.getChildren().addAll(text);
 
             Stage aboutPrompt = new Stage();
             aboutPrompt.setTitle("About");
             aboutPrompt.setScene(new Scene(aboutPane, 250, 150));
             aboutPrompt.show();
             aboutPrompt.setResizable(false);
-=======
-            // put 'about' code here.
-            // You can either make a separate method and 
-            // call it here (perhaps for neatness)
-            // or just jam all the code in here. Doesnt matter
->>>>>>> 90482dbce5ea6dd87554239c20b97d53f4941b31
         });
     }
 
