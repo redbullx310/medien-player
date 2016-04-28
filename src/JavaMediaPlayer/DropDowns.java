@@ -27,6 +27,7 @@ public class DropDowns {
     private MenuItem urlItem = new MenuItem("Open URL"); // not currently implemented
     private MenuItem fileItem = new MenuItem("Open File");
     private MenuItem enlargeScreen = new MenuItem("Enlarge Screen");
+    private MenuItem aboutItem = new MenuItem("About Medien");
     private FileChooser fileChooser = new FileChooser();
     public MenuBar menuBar = new MenuBar();
     public HBox dropDowns = new HBox();
@@ -35,9 +36,11 @@ public class DropDowns {
         urlItem.setStyle("-fx-text-fill: #000000");
         fileItem.setStyle("-fx-text-fill: #000000");
         enlargeScreen.setStyle("-fx-text-fill: #000000");
+        aboutItem.setStyle("-fx-text-fill: #000000");
 
         fileMenu.getItems().addAll(urlItem, fileItem);
         viewMenu.getItems().addAll(enlargeScreen);
+        aboutMenu.getItems().addAll(aboutItem);
         menuBar.getMenus().addAll(fileMenu, viewMenu, aboutMenu);
         menuBar.setStyle("-fx-background-color: #383838");
 
@@ -52,6 +55,13 @@ public class DropDowns {
         
         enlargeScreen.setOnAction(e -> {
             JavaMediaPlayer.bindScreen();
+        });
+        
+        aboutItem.setOnAction(e -> {
+            // put 'about' code here.
+            // You can either make a separate method and 
+            // call it here (perhaps for neatness)
+            // or just jam all the code in here. Doesnt matter
         });
     }
 
